@@ -12,6 +12,9 @@ server.get('/top-ten', ( request, response ) => {
     
 })
 
+server.get('/', (req,res)=>{
+    res.send("server running, serves on /top-ten")
+})
 server.listen(3006, ( request, response ) => {
     console.log("server started");
 })
