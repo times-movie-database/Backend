@@ -67,19 +67,9 @@ public class MovieController {
             return null;
     }
 
-    @GetMapping("/genre")
-    public List<Genre> findAllGenre() {
-        return movieService.findAllGenre();
-    }
-
     @GetMapping("/{movieId}/review")
     public List<Review> findAllReviews(@PathVariable int movieId, @RequestParam int pageNumber) {
         return movieService.findAllReviews(movieId, pageNumber);
-    }
-
-    @PostMapping("/add-genre")
-    public ResponseEntity<Genre> addGenre(@RequestBody GenreDTO genreDTO) {
-        return ResponseEntity.ok(movieService.addGenre(genreConverter.dtoToEntity(genreDTO)));
     }
     @GetMapping("/search")
     public List<MovieDisplay> searchApi(@RequestParam String title, @RequestParam String genre) {

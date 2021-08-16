@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
-@RequestMapping("/genre")
+@RequestMapping("/tmbd/genre")
 @RestController
 public class GenreController {
     private final MovieService movieService;
