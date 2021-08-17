@@ -1,6 +1,8 @@
 package com.times.tmdb.converter;
+
 import com.times.tmdb.dto.MovieDTO;
 import com.times.tmdb.dto.MovieDisplay;
+import com.times.tmdb.exceptionHandling.MovieServiceException;
 import com.times.tmdb.model.Genre;
 import com.times.tmdb.model.Movie;
 import com.times.tmdb.repository.GenreRepository;
@@ -51,15 +53,15 @@ public class MovieConvertor {
                 movie.addGenre(genre);
                 genre.addMovie(movie);
             }
-        }
+        } else
+            throw new MovieServiceException("No movie associated with the given id");
         return movie;
     }
 
     public List<MovieDisplay> entityToDisplay(List<Movie> movies) {
         List<MovieDisplay> movieDisplayList = new ArrayList<>();
-        for(Movie movie:movies)
-        {
-            MovieDisplay movieDisplay=new MovieDisplay();
+        for (Movie movie : movies) {
+            MovieDisplay movieDisplay = new MovieDisplay();
             movieDisplay.setId(movie.getId());
             movieDisplay.setTitle(movie.getTitle());
             movieDisplay.setRating(movie.getRating());
@@ -68,4 +70,4 @@ public class MovieConvertor {
         }
         return movieDisplayList;
     }
-    }
+}

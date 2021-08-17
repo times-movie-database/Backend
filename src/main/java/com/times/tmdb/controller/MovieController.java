@@ -5,10 +5,12 @@ import com.times.tmdb.dto.GenreDTO;
 import com.times.tmdb.dto.MovieDTO;
 import com.times.tmdb.dto.MovieDisplay;
 import com.times.tmdb.dto.BriefMovieDisplay;
+import com.times.tmdb.exceptionHandling.MovieServiceException;
 import com.times.tmdb.model.Genre;
 import com.times.tmdb.model.Movie;
 import com.times.tmdb.model.Review;
 import com.times.tmdb.service.MovieService;
+import com.times.tmdb.service.ReviewService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
@@ -16,6 +18,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 import java.util.List;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
@@ -24,12 +28,14 @@ public class MovieController {
     private final MovieService movieService;
     private final GenreConverter genreConverter;
     private final MovieConvertor movieConvertor;
+    private final ReviewService reviewService;
     Logger logger = LoggerFactory.getLogger(MovieController.class);
     @Autowired
-    public MovieController(MovieService movieService, GenreConverter genreConverter, MovieConvertor movieConvertor) {
+    public MovieController(MovieService movieService, GenreConverter genreConverter, MovieConvertor movieConvertor,ReviewService reviewService) {
         this.movieService = movieService;
         this.genreConverter = genreConverter;
         this.movieConvertor = movieConvertor;
+        this.reviewService=reviewService;
     }
 
     @GetMapping("/find-all")
@@ -39,12 +45,17 @@ public class MovieController {
 
     @PutMapping(value = "/{movieId}/rating")
     public void updateMovieRating(@PathVariable int movieId, @RequestBody double rating) {
+        if(rating<1.0)
+            throw new MovieServiceException("Minimum rating to be given is 1.0");
+        else if(rating>5.0)
+            throw new MovieServiceException("Maximum rating to be given is 5.0");
+        else
          movieService.updateMovieRating(movieId, rating);
     }
 
     @PutMapping(value = "/{movieId}/review")
     public void updateMovieReview(@PathVariable int movieId, @RequestBody String review) {
-         movieService.updateMovieReview(movieId, review);
+         reviewService.updateMovieReview(movieId, review);
     }
 
     @GetMapping(value = "/{movieId}")
@@ -54,7 +65,7 @@ public class MovieController {
     }
 
     @PostMapping()
-    public ResponseEntity<Integer> addMovie(@ApiParam(value = "Details of the movie required the user want to add", required = true) @RequestBody MovieDTO movieDTO) {
+    public int addMovie(@ApiParam(value = "Details of the movie required the user want to add", required = true) @Valid @RequestBody MovieDTO movieDTO) {
         return movieService.addMovie(movieConvertor.dtoToEntity(movieDTO));
     }
 
@@ -64,15 +75,15 @@ public class MovieController {
         if (movie != null) {
             return movieService.updateMovieById(movie);
         } else
-            return null;
+            throw new MovieServiceException("No movie associated with the given id that can be updated");
     }
 
     @GetMapping("/{movieId}/review")
     public List<Review> findAllReviews(@PathVariable int movieId, @RequestParam int pageNumber) {
-        return movieService.findAllReviews(movieId, pageNumber);
+        return reviewService.findAllReviews(movieId, pageNumber);
     }
     @GetMapping("/search")
-    public List<MovieDisplay> searchApi(@RequestParam String title, @RequestParam String genre) {
-        return movieConvertor.entityToDisplay(movieService.searchMovies(title, genre));
+    public List<MovieDisplay> searchApi(@RequestParam String title, @RequestParam String genre, @RequestParam int pageNumber) {
+        return movieConvertor.entityToDisplay(movieService.searchMovies(title, genre,pageNumber));
     }
 }

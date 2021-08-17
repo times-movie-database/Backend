@@ -12,6 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 public class BriefMovieDisplay {
+
     private int id;
     private String title;
     private double rating;

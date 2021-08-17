@@ -29,12 +29,7 @@ public class Movie {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(unique = true)
-    @NotNull
-    @Size(max = 100, message = "Name must not contain over 100 characters")
     private String title;
-    @NotNull
-    @Size(max = 500, message = "Summary must not exceed 500 characters")
-
     private String summary;
     private double rating;
     private int count;
