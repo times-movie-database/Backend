@@ -27,8 +27,6 @@ public class MovieServiceImpl implements MovieService {
         this.reviewRepository = reviewRepository;
     }
 
-
-
     @Override
     public void updateMovieRating(int id, double rating) {
         Optional<Movie> optionalMovie=movieRepository.findById(id);
@@ -90,7 +88,7 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public List<Movie> searchMovies(String title, String name, int pageNumber) {
-        if (name.equalsIgnoreCase("all"))
+        if (name.equalsIgnoreCase("all")&&title.isEmpty())
             return movieRepository.findAll();
         return movieRepository.findAll(Specification.where(genrePredicate(title, name)), PageRequest.of(pageNumber, 20)).toList();
     }
