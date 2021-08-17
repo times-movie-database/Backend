@@ -13,7 +13,6 @@ import java.util.Date;
 
 @ControllerAdvice
 public class AppExceptionHandler  {
-
     @ExceptionHandler(value = {Exception.class})
     public ResponseEntity<Object> handleAnyException(Exception exception, WebRequest webRequest){
         String errorMessageDescription=exception.getLocalizedMessage();
