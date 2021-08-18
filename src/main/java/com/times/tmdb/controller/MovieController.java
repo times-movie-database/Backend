@@ -103,7 +103,7 @@ public class MovieController {
         if (reviews.isEmpty())
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         else
-            return new ResponseEntity<List<Review>>(reviews, HttpStatus.FOUND);
+            return ResponseEntity.ok(reviews);
     }
 
     // Mapping for the searching the movie by title or/and Genre
