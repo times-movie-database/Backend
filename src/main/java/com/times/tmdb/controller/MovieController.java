@@ -60,7 +60,7 @@ public class MovieController {
             throw new MovieServiceException("Maximum rating to be given is 5.0");
         else
             movieService.updateMovieRating(movieId, rating);
-        return (ResponseEntity) ResponseEntity.ok();
+        return new ResponseEntity(HttpStatus.ACCEPTED);
     }
 
     // Mapping for adding a review to the movie on the mentioned movie id
