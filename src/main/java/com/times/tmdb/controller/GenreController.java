@@ -28,7 +28,7 @@ public class GenreController {
     // Mapping for getting all the genres
     @GetMapping()
     public ResponseEntity<List<Genre>> findAllGenre() {
-        return new ResponseEntity<List<Genre>>(genreService.findAllGenre(), HttpStatus.FOUND);
+        return  ResponseEntity.ok(genreService.findAllGenre());
     }
 
     //Mapping for adding new Genre
