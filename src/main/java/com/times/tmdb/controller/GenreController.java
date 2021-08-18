@@ -6,6 +6,7 @@ import com.times.tmdb.model.Genre;
 import com.times.tmdb.service.GenreService;
 import com.times.tmdb.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -24,13 +25,15 @@ public class GenreController {
         this.genreService=genreService;
     }
 
+    // Mapping for getting all the genres
     @GetMapping()
-    public List<Genre> findAllGenre() {
-        return genreService.findAllGenre();
+    public ResponseEntity<List<Genre>> findAllGenre() {
+        return new ResponseEntity<List<Genre>>(genreService.findAllGenre(), HttpStatus.FOUND);
     }
 
+    //Mapping for adding new Genre
     @PostMapping()
     public ResponseEntity<Genre> addGenre(@RequestBody GenreDTO genreDTO) {
-        return ResponseEntity.ok(genreService.addGenre(genreConverter.dtoToEntity(genreDTO)));
+        return new ResponseEntity(genreService.addGenre(genreConverter.dtoToEntity(genreDTO)),HttpStatus.CREATED);
     }
 }
