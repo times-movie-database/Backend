@@ -1,4 +1,4 @@
-package com.times.tmdb.dto;
+package com.times.tmdb.response.movie;
 
 import com.times.tmdb.model.Cast;
 import com.times.tmdb.model.Genre;

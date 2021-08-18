@@ -1,6 +1,7 @@
 package com.times.tmdb.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 import javax.persistence.*;
@@ -22,6 +23,7 @@ public class Genre {
     @Column(unique = true)
     @NotNull(message = "Genre can't be null")
     @Size(max = 20,message = "Summary must not exceed 20 words")
+    @ApiModelProperty(notes = "thematic category of the movie")
     private String name;
 
     public int getId() {

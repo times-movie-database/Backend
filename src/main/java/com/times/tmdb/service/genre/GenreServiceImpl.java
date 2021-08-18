@@ -1,7 +1,8 @@
-package com.times.tmdb.service;
+package com.times.tmdb.service.genre;
 
 import com.times.tmdb.model.Genre;
 import com.times.tmdb.repository.GenreRepository;
+import com.times.tmdb.service.genre.GenreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

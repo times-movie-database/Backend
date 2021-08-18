@@ -1,6 +1,6 @@
-package com.times.tmdb.service;
-import com.times.tmdb.dto.MovieDisplay;
-import com.times.tmdb.dto.BriefMovieDisplay;
+package com.times.tmdb.service.movie;
+import com.times.tmdb.response.movie.MovieDisplay;
+import com.times.tmdb.response.movie.BriefMovieDisplay;
 import com.times.tmdb.exceptionHandling.MovieServiceException;
 import com.times.tmdb.model.*;
 import com.times.tmdb.repository.GenreRepository;

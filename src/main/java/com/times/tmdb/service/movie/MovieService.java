@@ -1,9 +1,7 @@
-package com.times.tmdb.service;
+package com.times.tmdb.service.movie;
 
-import com.times.tmdb.dto.BriefMovieDisplay;
-import com.times.tmdb.model.Genre;
+import com.times.tmdb.response.movie.BriefMovieDisplay;
 import com.times.tmdb.model.Movie;
-import com.times.tmdb.model.Review;
 
 import java.util.List;
 

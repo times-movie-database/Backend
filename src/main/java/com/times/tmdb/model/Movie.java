@@ -27,11 +27,16 @@ public class Movie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ApiModelProperty(notes = "Movie id ")
     private int id;
     @Column(unique = true)
+    @ApiModelProperty(notes = "Title of the movie")
     private String title;
+    @ApiModelProperty(notes = "Plot of the movie")
     private String summary;
+    @ApiModelProperty(notes = "Average rating")
     private double rating;
+    @ApiModelProperty(notes = "Number of users rated till now")
     private int count;
     @ElementCollection
     @CollectionTable

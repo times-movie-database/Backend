@@ -1,7 +1,7 @@
 package com.times.tmdb.converter;
 
-import com.times.tmdb.dto.MovieDTO;
-import com.times.tmdb.dto.MovieDisplay;
+import com.times.tmdb.requestDTO.movie.MovieDTO;
+import com.times.tmdb.response.movie.MovieDisplay;
 import com.times.tmdb.exceptionHandling.MovieServiceException;
 import com.times.tmdb.model.Genre;
 import com.times.tmdb.model.Movie;

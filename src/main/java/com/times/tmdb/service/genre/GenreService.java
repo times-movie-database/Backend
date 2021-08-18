@@ -1,4 +1,4 @@
-package com.times.tmdb.service;
+package com.times.tmdb.service.genre;
 
 import com.times.tmdb.model.Genre;
 
