@@ -43,6 +43,8 @@ public class MovieController {
     // Mapping for getting all the movies from the database
     // pageNumber is for page Number
     @GetMapping("/find-all")
+
+    @ApiOperation(value = "Find all the movies", response = ResponseEntity.class)
     public ResponseEntity<List<MovieDisplay>> findAllMovies(@RequestParam int pageNumber) {
         List<MovieDisplay> movieDisplays = movieConvertor.entityToDisplay(movieService.findAllMovies(pageNumber));
         if (movieDisplays != null)
@@ -52,7 +54,8 @@ public class MovieController {
     }
 
     // Mapping for adding a rating to the movie on the mentioned movie id
-    @PutMapping(value = "/{movieId}/rating")
+    @PostMapping(value = "/{movieId}/rating")
+    @ApiOperation(value = "Add a rating to the movie by providing the movie id", notes = "Provide an id to add a review to a specific movie", response = Movie.class)
     public ResponseEntity updateMovieRating(@PathVariable int movieId, @RequestBody double rating) {
         if (rating < 1.0)
             throw new MovieServiceException("Minimum rating to be given is 1.0");
@@ -64,7 +67,8 @@ public class MovieController {
     }
 
     // Mapping for adding a review to the movie on the mentioned movie id
-    @PutMapping(value = "/{movieId}/review")
+    @PostMapping(value = "/{movieId}/review")
+    @ApiOperation(value = "Add review to a specific movie by movie id", notes = "Provide an id to add review", response = ResponseEntity.class)
     public ResponseEntity updateMovieReview(@PathVariable int movieId, @RequestBody String review) {
         reviewService.updateMovieReview(movieId, review);
         return new ResponseEntity(HttpStatus.ACCEPTED);
@@ -80,6 +84,7 @@ public class MovieController {
 
     // Mapping for adding the new Movie
     @PostMapping()
+    @ApiOperation(value = "Add a new movie", notes = "Provide title,summary,casts and genre to add ", response = ResponseEntity.class)
     public ResponseEntity<Integer> addMovie(@ApiParam(value = "Details of the movie required the user want to add", required = true) @Valid @RequestBody MovieDTO movieDTO) {
         int id = movieService.addMovie(movieConvertor.dtoToEntity(movieDTO));
         return new ResponseEntity<>(id, HttpStatus.CREATED);
@@ -87,6 +92,7 @@ public class MovieController {
 
     // Mapping for updating the movie details for the given movie id
     @PutMapping("/{movieId}")
+    @ApiOperation(value = "Update Movie Details by id", notes = "Provide an id to update the specific movie", response = ResponseEntity.class)
     public ResponseEntity update(@RequestBody MovieDTO movieDTO, @PathVariable("movieId") int movieId) {
         Movie movie = movieConvertor.dtoToEntityForUpdating(movieDTO, movieId);
         if (movie != null) {
@@ -98,6 +104,7 @@ public class MovieController {
 
     // Mapping for getting the reviews that are made on the particular movie
     @GetMapping("/{movieId}/review")
+    @ApiOperation(value = "Find all the reviews by specific movie id", notes = "Provide an id to look up for all the reviews of specific movie", response = ResponseEntity.class)
     public ResponseEntity<List<Review>> findAllReviews(@PathVariable int movieId, @RequestParam int pageNumber) {
         List<Review> reviews = reviewService.findAllReviews(movieId, pageNumber);
         if (reviews.isEmpty())
@@ -108,6 +115,7 @@ public class MovieController {
 
     // Mapping for the searching the movie by title or/and Genre
     @GetMapping("/search")
+    @ApiOperation(value = "Search movies by cast or/and genre", notes = "Provide title or genre of the movie to look up for the associated movies with them", response = ResponseEntity.class)
     public ResponseEntity<List<MovieDisplay>> searchApi(@RequestParam String title, @RequestParam String genre, @RequestParam int pageNumber) {
         List<MovieDisplay> movieDisplays = movieConvertor.entityToDisplay(movieService.searchMovies(title, genre, pageNumber));
         if (movieDisplays.isEmpty())
