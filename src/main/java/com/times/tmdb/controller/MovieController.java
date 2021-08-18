@@ -46,7 +46,7 @@ public class MovieController {
     public ResponseEntity<List<MovieDisplay>> findAllMovies(@RequestParam int pageNumber) {
         List<MovieDisplay> movieDisplays = movieConvertor.entityToDisplay(movieService.findAllMovies(pageNumber));
         if (movieDisplays != null)
-            return new ResponseEntity<List<MovieDisplay>>(movieDisplays, HttpStatus.FOUND);
+            return ResponseEntity.ok(movieDisplays);
         else
             return new ResponseEntity<List<MovieDisplay>>((List<MovieDisplay>) null, HttpStatus.NO_CONTENT);
     }
@@ -60,7 +60,7 @@ public class MovieController {
             throw new MovieServiceException("Maximum rating to be given is 5.0");
         else
             movieService.updateMovieRating(movieId, rating);
-        return new ResponseEntity(HttpStatus.PROCESSING);
+        return (ResponseEntity) ResponseEntity.ok();
     }
 
     // Mapping for adding a review to the movie on the mentioned movie id
@@ -75,7 +75,7 @@ public class MovieController {
     @ApiOperation(value = "Find Movie Details by id", notes = "Provide an id to look up for the specific movie", response = Movie.class)
     public ResponseEntity<BriefMovieDisplay> getMovieDetails(@ApiParam(value = "Id value for the movie you need to retrieve", required = true) @PathVariable int movieId) {
         BriefMovieDisplay briefMovieDisplay = movieService.findMovieDetails(movieId);
-        return new ResponseEntity<BriefMovieDisplay>(briefMovieDisplay, HttpStatus.FOUND);
+        return ResponseEntity.ok(briefMovieDisplay);
     }
 
     // Mapping for adding the new Movie
@@ -113,6 +113,6 @@ public class MovieController {
         if (movieDisplays.isEmpty())
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         else
-            return new ResponseEntity<List<MovieDisplay>>(movieDisplays, HttpStatus.FOUND);
+            return ResponseEntity.ok(movieDisplays);
     }
 }
