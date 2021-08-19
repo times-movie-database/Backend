@@ -59,8 +59,9 @@ public class MovieServiceImpl implements MovieService {
     }
     @Override
     public int addMovie(Movie movie) {
-        Movie movie1 = movieRepository.save(movie);
-        return movie1.getId();
+        Movie movieAdded = null;
+             movieAdded = movieRepository.save(movie);
+        return movieAdded.getId();
     }
 
     @Override

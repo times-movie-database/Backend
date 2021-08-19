@@ -24,7 +24,6 @@ import java.util.List;
 @ApiModel(description = "Details of the specific movie")
 public class Movie {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @ApiModelProperty(notes = "Movie id ")

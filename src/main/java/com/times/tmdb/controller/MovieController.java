@@ -121,6 +121,7 @@ public class MovieController {
         if (movieDisplays.isEmpty())
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         else
-            return ResponseEntity.ok(movieDisplays);
+//            return ResponseEntity.ok(movieDisplays);
+        return new ResponseEntity<>(movieDisplays,HttpStatus.OK);
     }
 }

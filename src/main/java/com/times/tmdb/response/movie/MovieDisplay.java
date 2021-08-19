@@ -3,6 +3,7 @@ package com.times.tmdb.response.movie;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
@@ -13,8 +14,9 @@ import lombok.*;
 @ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
+@ApiModel(value = "Response for Search API")
 public class MovieDisplay {
-    @ApiModelProperty(notes = "Movie id")
+    @ApiModelProperty(notes = "Unique Identifier for movie")
     private int id;
     @ApiModelProperty(notes = "Title of the movie")
     private String title;
