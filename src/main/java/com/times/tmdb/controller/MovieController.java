@@ -40,11 +40,8 @@ public class MovieController {
         this.reviewService = reviewService;
     }
 
-    // Mapping for getting all the movies from the database
-    // pageNumber is for page Number
-    @GetMapping("/find-all")
-
-    @ApiOperation(value = "Find all the movies", response = ResponseEntity.class)
+    @GetMapping("/find-all") 
+    @ApiOperation(value = "Find all the movies", response = MovieDisplay.class)
     public ResponseEntity<List<MovieDisplay>> findAllMovies(@RequestParam int pageNumber) {
         List<MovieDisplay> movieDisplays = movieConvertor.entityToDisplay(movieService.findAllMovies(pageNumber));
         if (movieDisplays != null)
@@ -76,7 +73,7 @@ public class MovieController {
 
     // Mapping for getting the whole details of the movie on the given particular movie id
     @GetMapping(value = "/{movieId}")
-    @ApiOperation(value = "Find Movie Details by id", notes = "Provide an id to look up for the specific movie", response = Movie.class)
+    @ApiOperation(value = "Find Movie Details by id", notes = "Provide an id to look up for the specific movie", response = BriefMovieDisplay.class)
     public ResponseEntity<BriefMovieDisplay> getMovieDetails(@ApiParam(value = "Id value for the movie you need to retrieve", required = true) @PathVariable int movieId) {
         BriefMovieDisplay briefMovieDisplay = movieService.findMovieDetails(movieId);
         return ResponseEntity.ok(briefMovieDisplay);
@@ -104,7 +101,7 @@ public class MovieController {
 
     // Mapping for getting the reviews that are made on the particular movie
     @GetMapping("/{movieId}/review")
-    @ApiOperation(value = "Find all the reviews by specific movie id", notes = "Provide an id to look up for all the reviews of specific movie", response = ResponseEntity.class)
+    @ApiOperation(value = "Find all the reviews by specific movie id", notes = "Provide an id to look up for all the reviews of specific movie", response = Review.class)
     public ResponseEntity<List<Review>> findAllReviews(@PathVariable int movieId, @RequestParam int pageNumber) {
         List<Review> reviews = reviewService.findAllReviews(movieId, pageNumber);
         if (reviews.isEmpty())
