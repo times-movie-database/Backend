@@ -40,7 +40,7 @@ public class MovieController {
         this.reviewService = reviewService;
     }
 
-    @GetMapping("/find-all") 
+    @GetMapping("/find-all")
     @ApiOperation(value = "Find all the movies", response = MovieDisplay.class)
     public ResponseEntity<List<MovieDisplay>> findAllMovies(@RequestParam int pageNumber) {
         List<MovieDisplay> movieDisplays = movieConvertor.entityToDisplay(movieService.findAllMovies(pageNumber));

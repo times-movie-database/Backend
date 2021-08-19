@@ -19,7 +19,7 @@ public class Review {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @ApiModelProperty(notes = "id of the review")
+    @ApiModelProperty(notes = "Unique Identifier of the review")
     private int id;
     @ApiModelProperty(notes = "Review added by the user")
     private String review;
