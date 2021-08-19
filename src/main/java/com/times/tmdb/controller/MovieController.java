@@ -115,7 +115,7 @@ public class MovieController {
 
     // Mapping for the searching the movie by title or/and Genre
     @GetMapping("/search")
-    @ApiOperation(value = "Search movies by cast or/and genre", notes = "Provide title or genre of the movie to look up for the associated movies with them", response = ResponseEntity.class)
+    @ApiOperation(value = "Search movies by cast or/and genre", notes = "Provide title or genre of the movie to look up for the associated movies with them", response = MovieDisplay.class)
     public ResponseEntity<List<MovieDisplay>> searchApi(@RequestParam String title, @RequestParam String genre, @RequestParam int pageNumber) {
         List<MovieDisplay> movieDisplays = movieConvertor.entityToDisplay(movieService.searchMovies(title, genre, pageNumber));
         if (movieDisplays.isEmpty())
