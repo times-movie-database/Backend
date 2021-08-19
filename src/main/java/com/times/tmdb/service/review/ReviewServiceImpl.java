@@ -1,11 +1,10 @@
 package com.times.tmdb.service.review;
 
-import com.times.tmdb.exceptionHandling.MovieServiceException;
+import com.times.tmdb.exception.MovieServiceException;
 import com.times.tmdb.model.Movie;
 import com.times.tmdb.model.Review;
 import com.times.tmdb.repository.MovieRepository;
 import com.times.tmdb.repository.ReviewRepository;
-import com.times.tmdb.service.review.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;

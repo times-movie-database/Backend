@@ -1,4 +1,4 @@
-package com.times.tmdb.exceptionHandling;
+package com.times.tmdb.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

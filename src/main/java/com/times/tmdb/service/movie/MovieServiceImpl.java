@@ -1,7 +1,7 @@
 package com.times.tmdb.service.movie;
 import com.times.tmdb.response.movie.MovieDisplay;
 import com.times.tmdb.response.movie.BriefMovieDisplay;
-import com.times.tmdb.exceptionHandling.MovieServiceException;
+import com.times.tmdb.exception.MovieServiceException;
 import com.times.tmdb.model.*;
 import com.times.tmdb.repository.GenreRepository;
 import com.times.tmdb.repository.MovieRepository;

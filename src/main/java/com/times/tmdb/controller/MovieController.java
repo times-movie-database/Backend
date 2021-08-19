@@ -2,10 +2,10 @@ package com.times.tmdb.controller;
 
 import com.times.tmdb.converter.GenreConverter;
 import com.times.tmdb.converter.MovieConvertor;
-import com.times.tmdb.requestDTO.movie.MovieDTO;
+import com.times.tmdb.request.movie.MovieDTO;
 import com.times.tmdb.response.movie.MovieDisplay;
 import com.times.tmdb.response.movie.BriefMovieDisplay;
-import com.times.tmdb.exceptionHandling.MovieServiceException;
+import com.times.tmdb.exception.MovieServiceException;
 import com.times.tmdb.model.Movie;
 import com.times.tmdb.model.Review;
 import com.times.tmdb.service.movie.MovieService;

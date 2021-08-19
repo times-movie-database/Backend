@@ -1,7 +1,7 @@
 package com.times.tmdb.controller;
 
 import com.times.tmdb.converter.GenreConverter;
-import com.times.tmdb.requestDTO.genre.GenreDTO;
+import com.times.tmdb.request.genre.GenreDTO;
 import com.times.tmdb.model.Genre;
 import com.times.tmdb.service.genre.GenreService;
 import com.times.tmdb.service.movie.MovieService;

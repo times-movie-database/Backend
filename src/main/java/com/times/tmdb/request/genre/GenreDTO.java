@@ -1,4 +1,4 @@
-package com.times.tmdb.requestDTO.genre;
+package com.times.tmdb.request.genre;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;

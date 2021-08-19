@@ -14,7 +14,7 @@ import lombok.*;
 @ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-@ApiModel(value = "Response for Search API")
+@ApiModel(description = "Response for Search API")
 public class MovieDisplay {
     @ApiModelProperty(notes = "Unique Identifier for movie")
     private int id;

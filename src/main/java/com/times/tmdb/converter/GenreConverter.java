@@ -1,6 +1,6 @@
 package com.times.tmdb.converter;
 
-import com.times.tmdb.requestDTO.genre.GenreDTO;
+import com.times.tmdb.request.genre.GenreDTO;
 import com.times.tmdb.model.Genre;
 import org.springframework.stereotype.Component;
 

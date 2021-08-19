@@ -1,4 +1,4 @@
-package com.times.tmdb.requestDTO.movie;
+package com.times.tmdb.request.movie;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;

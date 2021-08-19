@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@ApiModel(value = "Information about the Movie along with its meta-data & data")
+@ApiModel(description = "Information about the Movie along with its field data")
 public class BriefMovieDisplay {
     private int id;
     private String title;
