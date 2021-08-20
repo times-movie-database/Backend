@@ -12,6 +12,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import javax.persistence.criteria.ListJoin;
 import javax.persistence.criteria.Predicate;
+import java.text.DecimalFormat;
 import java.util.*;
 
 @Service
@@ -35,7 +36,8 @@ public class MovieServiceImpl implements MovieService {
             int count = movie.getCount();
             double avgRating = movie.getRating();
             avgRating = ((avgRating * count) + rating) / (++count);
-            movieRepository.updateRating(Math.round(avgRating), count, id);
+            double finalRating = (double) (Math.round(avgRating*10.0)/10.0);
+            movieRepository.updateRating(finalRating, count, id);
         }
         else
             throw new MovieServiceException("No movie associated with the given id");
