@@ -3,8 +3,10 @@ package com.times.tmdb.controller;
 import com.times.tmdb.converter.GenreConverter;
 import com.times.tmdb.request.genre.GenreDTO;
 import com.times.tmdb.model.Genre;
+import com.times.tmdb.response.movie.MovieDisplay;
 import com.times.tmdb.service.genre.GenreService;
 import com.times.tmdb.service.movie.MovieService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,12 +29,14 @@ public class GenreController {
 
     // Mapping for getting all the genres
     @GetMapping()
+    @ApiOperation(value = "Find all the Genres", response = Genre.class)
     public ResponseEntity<List<Genre>> findAllGenre() {
         return  ResponseEntity.ok(genreService.findAllGenre());
     }
 
     //Mapping for adding new Genre
     @PostMapping()
+    @ApiOperation(value = "Add a Genre", response = Genre.class)
     public ResponseEntity<Genre> addGenre(@RequestBody GenreDTO genreDTO) {
         return new ResponseEntity(genreService.addGenre(genreConverter.dtoToEntity(genreDTO)),HttpStatus.CREATED);
     }

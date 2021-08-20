@@ -35,7 +35,7 @@ public class MovieServiceImpl implements MovieService {
             int count = movie.getCount();
             double avgRating = movie.getRating();
             avgRating = ((avgRating * count) + rating) / (++count);
-            movieRepository.updateRating(avgRating, count, id);
+            movieRepository.updateRating(Math.round(avgRating), count, id);
         }
         else
             throw new MovieServiceException("No movie associated with the given id");
