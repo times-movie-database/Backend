@@ -52,7 +52,7 @@ public class MovieController {
 
     // Mapping for adding a rating to the movie on the mentioned movie id
     @PostMapping(value = "/{movieId}/rating")
-    @ApiOperation(value = "Add a rating to the movie by providing the movie id", notes = "Provide an id to add a review to a specific movie", response = Movie.class)
+    @ApiOperation(value = "Add a rating to the movie by providing the movie id", notes = "Provide an id to add a review to a specific movie", response = ResponseEntity.class)
     public ResponseEntity updateMovieRating(@PathVariable int movieId, @RequestBody double rating) {
         if (rating < 1.0)
             throw new MovieServiceException("Minimum rating to be given is 1.0");
