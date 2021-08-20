@@ -67,7 +67,7 @@ public class MovieController {
     // Mapping for adding a review to the movie on the mentioned movie id
     @PostMapping(value = "/{movieId}/review")
     @ApiOperation(value = "Add review to a specific movie by movie id", notes = "Provide an id to add review", response = ResponseEntity.class)
-    public ResponseEntity updateMovieReview(@PathVariable int movieId,@Size(max = 500, message = "only 500 characters allowed") @RequestBody String review) {
+    public ResponseEntity updateMovieReview(@PathVariable int movieId,@Size(max = 1000, message = "only 500 characters allowed") @RequestBody String review) {
         reviewService.updateMovieReview(movieId, review);
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
