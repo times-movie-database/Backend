@@ -1,0 +1,24 @@
+package com.times.tmdb.response.movie;
+
+import com.times.tmdb.model.Cast;
+import com.times.tmdb.model.Genre;
+import io.swagger.annotations.ApiModel;
+import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
+@ApiModel(description = "Information about the Movie along with its field data")
+public class BriefMovieDisplay {
+    private int id;
+    private String title;
+    private double rating;
+    private String summary;
+    private int count;
+    private List<Genre> genres = new ArrayList<>();
+    private List<Cast> cast;
+}
