@@ -37,9 +37,12 @@ public class ReviewServiceImpl implements ReviewService {
             throw new MovieServiceException("No movie associated with the given id");
     }
     @Override
-    public List<Review> findAllReviews(int id, int pageNumber) {
+    public List<Review> findAllReviews(int id, int pageNumber,Optional<Integer> pageSize) {
         Optional<Movie> optionalMovie=movieRepository.findById(id);
         if (optionalMovie.isPresent()) {
+            if(pageSize.isPresent())
+                return reviewRepository.findAllByMovieId(id, PageRequest.of(pageNumber, pageSize.get()));
+            else
             return reviewRepository.findAllByMovieId(id, PageRequest.of(pageNumber, 5));
         }
         else
