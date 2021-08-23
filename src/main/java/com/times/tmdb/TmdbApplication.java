@@ -33,7 +33,7 @@ public class TmdbApplication {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .apis(RequestHandlerSelectors.any())
-                .paths(PathSelectors.ant("/tmdb/movies/**"))
+                .paths(PathSelectors.ant("/tmdb/**"))
                 .build().apiInfo(apiDetails());
     }
 }
