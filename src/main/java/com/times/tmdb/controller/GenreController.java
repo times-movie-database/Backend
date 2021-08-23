@@ -12,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
+
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/tmdb/genre")
 @RestController
@@ -26,20 +28,20 @@ public class GenreController {
     public GenreController(MovieService movieService, GenreConverter genreConverter, GenreService genreService) {
         this.movieService = movieService;
         this.genreConverter = genreConverter;
-        this.genreService=genreService;
+        this.genreService = genreService;
     }
 
     // Mapping for getting all the genres
     @GetMapping()
     @ApiOperation(value = "Find all the Genres", response = Genre.class)
     public ResponseEntity<List<Genre>> findAllGenre() {
-        return  ResponseEntity.ok(genreService.findAllGenre());
+        return ResponseEntity.ok(genreService.findAllGenre());
     }
 
     //Mapping for adding new Genre
     @PostMapping()
     @ApiOperation(value = "Add a Genre", response = Genre.class)
     public ResponseEntity<Genre> addGenre(@RequestBody GenreDTO genreDTO) {
-        return new ResponseEntity(genreService.addGenre(genreConverter.dtoToEntity(genreDTO)),HttpStatus.CREATED);
+        return new ResponseEntity(genreService.addGenre(genreConverter.dtoToEntity(genreDTO)), HttpStatus.CREATED);
     }
 }
