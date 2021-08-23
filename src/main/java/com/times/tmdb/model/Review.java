@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
+import lombok.extern.jbosslog.JBossLog;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -22,6 +23,7 @@ public class Review {
     @ApiModelProperty(notes = "Unique Identifier of the review")
     private int id;
     @ApiModelProperty(notes = "Review added by the user")
+    @Lob
     private String review;
     @ManyToOne
     @JoinColumn(nullable=false)
