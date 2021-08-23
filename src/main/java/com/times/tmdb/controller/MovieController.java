@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Size;
 import java.util.List;
-import java.util.Optional;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
@@ -105,8 +104,8 @@ public class MovieController {
     // Mapping for getting the reviews that are made on the particular movie
     @GetMapping("/{movieId}/review")
     @ApiOperation(value = "Find all the reviews by specific movie id", notes = "Provide an id to look up for all the reviews of specific movie", response = Review.class)
-    public ResponseEntity<List<Review>> findAllReviews(@PathVariable int movieId, @RequestParam Integer pageNumber ,@RequestParam(required = false) Integer pageSize) {
-        List<Review> reviews = reviewService.findAllReviews(movieId, pageNumber,pageSize);
+    public ResponseEntity<List<Review>> findAllReviews(@PathVariable int movieId, @RequestParam Integer pageNumber, @RequestParam(required = false) Integer pageSize) {
+        List<Review> reviews = reviewService.findAllReviews(movieId, pageNumber, pageSize);
         if (reviews.isEmpty())
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         else
@@ -121,7 +120,6 @@ public class MovieController {
         if (movieDisplays.isEmpty())
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         else
-//            return ResponseEntity.ok(movieDisplays);
-        return new ResponseEntity<>(movieDisplays,HttpStatus.OK);
+            return new ResponseEntity<>(movieDisplays, HttpStatus.OK);
     }
 }

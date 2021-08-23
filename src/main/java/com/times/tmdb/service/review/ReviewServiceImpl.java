@@ -16,15 +16,17 @@ import java.util.Optional;
 public class ReviewServiceImpl implements ReviewService {
     private final MovieRepository movieRepository;
     private final ReviewRepository reviewRepository;
+
     @Autowired
     public ReviewServiceImpl(MovieRepository movieRepository, ReviewRepository reviewRepository) {
         this.movieRepository = movieRepository;
         this.reviewRepository = reviewRepository;
     }
 
+    //Method to be invoked when user posts a review to the movie
     @Override
-    public void updateMovieReview(int id, String review) {
-        Optional<Movie> optionalMovie = movieRepository.findById(id);
+    public void updateMovieReview(int movie_id, String review) {
+        Optional<Movie> optionalMovie = movieRepository.findById(movie_id);
         if (optionalMovie.isPresent()) {
             Movie movie = optionalMovie.get();
             Review freshReview = new Review();//review, movie
@@ -32,20 +34,20 @@ public class ReviewServiceImpl implements ReviewService {
             freshReview.setReview(review);
             movie.addReview(freshReview);
             movieRepository.save(movie);
-        }
-        else
+        } else
             throw new MovieServiceException("No movie associated with the given id");
     }
+
+    //Function to be called when to find all the reviews related to the particular movie
     @Override
-    public List<Review> findAllReviews(int id, Integer pageNumber,Integer pageSize) {
-        Optional<Movie> optionalMovie=movieRepository.findById(id);
+    public List<Review> findAllReviews(int movie_id, Integer pageNumber, Integer pageSize) {
+        Optional<Movie> optionalMovie = movieRepository.findById(movie_id);
         if (optionalMovie.isPresent()) {
-            if(pageSize!=null)
-                return reviewRepository.findAllByMovieId(id, PageRequest.of(pageNumber, pageSize));
+            if (pageSize != null)
+                return reviewRepository.findAllByMovieId(movie_id, PageRequest.of(pageNumber, pageSize));
             else
-            return reviewRepository.findAllByMovieId(id, PageRequest.of(pageNumber, 5));
-        }
-        else
+                return reviewRepository.findAllByMovieId(movie_id, PageRequest.of(pageNumber, 5));
+        } else
             throw new MovieServiceException("No movie associated with the given id");
     }
 }
