@@ -7,6 +7,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ReviewService {
-    List<Review> findAllReviews(int id, int pageNumber, Optional<Integer> pageSize);
+    List<Review> findAllReviews(int id, Integer pageNumber, Integer pageSize);
     void updateMovieReview(int id, String review);
 }
