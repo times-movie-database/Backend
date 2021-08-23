@@ -15,13 +15,7 @@ import javax.servlet.ServletContext;
 
 @Configuration
 @EnableSwagger2
-public class SwaggerConfig extends WebMvcConfigurerAdapter {
-
-
-    @Override
-    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer defaultServletHandlerConfigurer) {
-        defaultServletHandlerConfigurer.enable();
-    }
+public class SwaggerConfig  {
 
     @Bean
     public Docket swaggerPlugin(ServletContext servletContext) {
