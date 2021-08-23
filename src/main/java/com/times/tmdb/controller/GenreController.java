@@ -6,6 +6,7 @@ import com.times.tmdb.model.Genre;
 import com.times.tmdb.response.movie.MovieDisplay;
 import com.times.tmdb.service.genre.GenreService;
 import com.times.tmdb.service.movie.MovieService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,7 @@ import java.util.List;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/tmdb/genre")
 @RestController
+@Api(value = "/tmdb/genre", tags = "Genre Management")
 public class GenreController {
     private final MovieService movieService;
     private final GenreConverter genreConverter;
