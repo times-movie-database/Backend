@@ -10,8 +10,7 @@ import com.times.tmdb.model.Movie;
 import com.times.tmdb.model.Review;
 import com.times.tmdb.service.movie.MovieService;
 import com.times.tmdb.service.review.ReviewService;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +25,7 @@ import java.util.List;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/tmdb/movies")
+@Api(value = "/tmdb/movies", tags = "Movie Management")
 public class MovieController {
     private final MovieService movieService;
     private final GenreConverter genreConverter;
