@@ -35,6 +35,9 @@ public class MovieConvertor {
         movie.setRating(0.0);
         if(movieDTO.getGenreIdList().isEmpty())
             throw new MovieServiceException("You must select at least one genre");
+        else if (movieDTO.getGenreIdList().contains(0))
+            throw new MovieServiceException("No genre associated with the given id");
+        else
         for (int id : movieDTO.getGenreIdList()) {
             Genre genre = genreRepository.findById(id).get();
             genre.addMovie(movie);
