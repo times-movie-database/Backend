@@ -29,10 +29,12 @@ public class MovieConvertor {
         Movie movie = new Movie();
         movie.setTitle(movieDTO.getTitle().toLowerCase());
         movie.setSummary(movieDTO.getSummary());
+        if(movieDTO.getCastList().isEmpty())
+            throw new MovieServiceException("You must enter atleast one cast");
         movie.setCast(movieDTO.getCastList());
         movie.setRating(0.0);
         if(movieDTO.getGenreIdList().isEmpty())
-            throw new MovieServiceException("You must select genre");
+            throw new MovieServiceException("You must select at least one genre");
         for (int id : movieDTO.getGenreIdList()) {
             Genre genre = genreRepository.findById(id).get();
             genre.addMovie(movie);
