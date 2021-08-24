@@ -33,7 +33,7 @@ public class MovieServiceImpl implements MovieService {
     //This Method gets invoked when user post his/her rating
     //Parameters-> movie_id - > unique identification of the movie in which rating is to be added and rating- > user rating
     @Override
-    public void updateMovieRating(int movie_id, double rating) {
+    public Movie updateMovieRating(int movie_id, double rating) {
         Optional<Movie> optionalMovie = movieRepository.findById(movie_id);
         if (optionalMovie.isPresent()) {
             Movie movie = optionalMovie.get();
@@ -42,6 +42,7 @@ public class MovieServiceImpl implements MovieService {
             avgRating = ((avgRating * count) + rating) / (++count);
             double finalRating = (double) (Math.round(avgRating * 10.0) / 10.0);
             movieRepository.updateRating(finalRating, count, movie_id);
+            return movie;
         } else
             throw new MovieServiceException("No movie associated with the given id");
     }

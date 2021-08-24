@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface MovieService {
 
-    void updateMovieRating(int id, double rating);
+    Movie updateMovieRating(int id, double rating);
 
     BriefMovieDisplay findMovieDetails(int id);
 

@@ -32,6 +32,7 @@ public class Movie {
     @ApiModelProperty(notes = "Title of the movie")
     private String title;
     @ApiModelProperty(notes = "Plot of the movie")
+    @Lob
     private String summary;
     @ApiModelProperty(notes = "Average rating")
     private double rating;

@@ -46,7 +46,6 @@ public class MovieConvertor {
         return movie;
     }
 
-
     public Movie dtoToEntityForUpdating(MovieDTO movieDTO, int id) {
         Optional<Movie> optionalMovie = movieRepository.findById(id);
         Movie movie = null;
