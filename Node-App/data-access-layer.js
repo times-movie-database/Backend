@@ -1,20 +1,20 @@
 const mysql = require('mysql2');
 
 const pool = mysql.createPool({
-    host: process.env.DATABASE_HOST_URL,
+    host: 'root.cgte9rgghuql.us-east-2.rds.amazonaws.com',
     user: 'root',
     port: 3306,
-    password: 'root',
-    database: 'movie',
+    password: 'Aman2211',
+    database: 'tmdb',
     connectionLimit: 5
 });
 
 function getTopTenMovieOverall(callback) {
-    const getTopTenMoviesAllSQL = `SELECT movie_id AS id , title , rating
-    FROM movie.movie m 
-    JOIN movie.movie_genre mg
+    const getTopTenMoviesAllSQL = `SELECT DISTINCT movie_id AS id , title , rating
+    FROM tmdb.movie m 
+    JOIN tmdb.movie_genre mg
         ON m.id=mg.movie_id
-    JOIN movie.genres g
+    JOIN tmdb.genres g
         ON mg.genre_id=g.id
     ORDER BY rating DESC
         LIMIT 10;`;
@@ -30,11 +30,11 @@ function getTopTenMovieOverall(callback) {
 }
 
 function getTopTenMovieFromGenre(genre, callback) {
-    const getTopTenMovieFromGenreSQL = `SELECT movie_id AS id , title , rating
-    FROM movie.movie m 
-    JOIN movie.movie_genre mg
+    const getTopTenMovieFromGenreSQL = `SELECT DISTINCT movie_id AS id , title , rating
+    FROM tmdb.movie m 
+    JOIN tmdb.movie_genre mg
         ON m.id=mg.movie_id
-    JOIN movie.genres g
+    JOIN tmdb.genres g
         ON mg.genre_id=g.id
     WHERE g.name="${genre}"
     ORDER BY rating DESC
