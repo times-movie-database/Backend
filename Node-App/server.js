@@ -1,8 +1,13 @@
 const expressModule = require('express');
+
+const cors=require('cors');
 const dal = require('./data-access-layer')
 const server = expressModule();
 
-server.get('/top-ten', ( request, response ) => {
+server.use(cors({
+    origin: '*'
+}));
+server.get('/tmdb/movies/top-ten', ( request, response ) => {
     Object.keys(request.query).length===0?dal.getTopTenMovieOverall( (result)=>{
         response.send( result );
     } )
@@ -13,8 +18,14 @@ server.get('/top-ten', ( request, response ) => {
 })
 
 server.get('/', (req,res)=>{
-    res.send("server running, serves on /top-ten")
+    res.send("server running, serves on /tmdb/movies/top-ten")
 })
-server.listen(3006, ( request, response ) => {
+server.get('/tmdb', (req,res)=>{
+    res.send("server serves on /movies/top-ten")
+})
+server.get('/tmdb/movies', (req,res)=>{
+    res.send("server serves on /top-ten")
+})
+server.listen(process.env.PORT||3006, ( request, response ) => {
     console.log("server started");
 })
