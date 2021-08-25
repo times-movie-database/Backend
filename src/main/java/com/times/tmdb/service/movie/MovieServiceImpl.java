@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.ListJoin;
 import javax.persistence.criteria.Predicate;
-import java.text.DecimalFormat;
 import java.util.*;
 
 @Service
@@ -29,13 +28,12 @@ public class MovieServiceImpl implements MovieService {
      * <p>
      * This method updates the average the rating of  movie and increase the count to 1
      *
-     * @param  movieId  unique id of the movie on which rating is to be added
-     * @param  rating the double value which user wants to rate to the movie
-     * @return     the Movie object to the controller
-     *
+     * @param movieId unique id of the movie on which rating is to be added
+     * @param rating  the double value which user wants to rate to the movie
+     * @return the Movie object to the controller
      */
     @Override
-    public Movie updateMovieRating(int movieId, double rating) {
+    public Movie addRating(int movieId, double rating) {
         Optional<Movie> optionalMovie = movieRepository.findById(movieId);
         if (optionalMovie.isPresent()) {
             Movie movie = optionalMovie.get();
@@ -50,9 +48,16 @@ public class MovieServiceImpl implements MovieService {
             throw new MovieServiceException("No movie associated with the given id");
     }
 
-    //This method gets invoked when user wants to see full details of the movie.
+    /**
+     * Returns an Movie object that can then be painted on the screen.
+     * <p>
+     * This method finds the brief details of the movie as requested by the user
+     *
+     * @param movieId unique id of the movie of which details is to be retrieved
+     * @return the Movie object containing brief details to the controller
+     */
     @Override
-    public BriefMovieDisplay findMovieDetails(int movieId) {
+    public BriefMovieDisplay findMovieDetailsByMovieId(int movieId) {
         Optional<Movie> optionalMovie = movieRepository.findById(movieId);
         BriefMovieDisplay briefMovieDisplay = new BriefMovieDisplay();
         if (optionalMovie.isPresent()) {
@@ -69,7 +74,13 @@ public class MovieServiceImpl implements MovieService {
             throw new MovieServiceException("No movie associated with the given id");
     }
 
-    //Method to be called when user wants to add a new movie to the database
+    /**
+     * Returns unique id of the movie which is newly added by the user
+     * <p>
+     * This method add a new movie to the database
+     *
+     * @return the id to the controller
+     */
     @Override
     public int addMovie(Movie movie) {
         Movie movieAdded = null;
@@ -79,7 +90,7 @@ public class MovieServiceImpl implements MovieService {
 
     //Method to be invoked when user wants to edit the existing movie
     @Override
-    public Movie updateMovieById(Movie movie) {
+    public Movie updateMovieByMovieId(Movie movie) {
         return movieRepository.save(movie);
     }
 
@@ -102,11 +113,21 @@ public class MovieServiceImpl implements MovieService {
         return movieRepository.findAll(PageRequest.of(pageNumber, 20)).toList();
     }
 
-    //Service to be invoked when user wants to search a movie by title or/and genre
+    /**
+     * Returns List of movies based on the search criteria
+     * <p>
+     * This method search the movies by title or/and cast
+     *
+     * @param title      title of the movie to be searched
+     * @param name       genre filter
+     * @param pageNumber
+     * @return the list of movies based on the criteria
+     * Here we have used dynamic query using Specification Criteria
+     */
     @Override
     public List<Movie> searchMovies(String title, String name, int pageNumber) {
         if (name.equalsIgnoreCase("all") && title.isEmpty())
-            return movieRepository.findAll(PageRequest.of(pageNumber,20)).toList();
+            return movieRepository.findAll(PageRequest.of(pageNumber, 20)).toList();
         return movieRepository.findAll(Specification.where(genrePredicate(title, name)), PageRequest.of(pageNumber, 20)).toList();
     }
 

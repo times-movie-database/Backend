@@ -8,5 +8,5 @@ import java.util.Optional;
 
 public interface ReviewService {
     List<Review> findAllReviews(int id, Integer pageNumber, Integer pageSize);
-    void updateMovieReview(int id, String review);
+    void addReview(int id, String review);
 }

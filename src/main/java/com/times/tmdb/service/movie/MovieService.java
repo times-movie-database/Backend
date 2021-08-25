@@ -7,13 +7,13 @@ import java.util.List;
 
 public interface MovieService {
 
-    Movie updateMovieRating(int id, double rating);
+    Movie addRating(int id, double rating);
 
-    BriefMovieDisplay findMovieDetails(int id);
+    BriefMovieDisplay findMovieDetailsByMovieId(int id);
 
     int addMovie(Movie m);
 
-    Movie updateMovieById(Movie movie);
+    Movie updateMovieByMovieId(Movie movie);
 
     List<Movie> findAllMovies(int pageNumber);
 

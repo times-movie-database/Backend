@@ -19,7 +19,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Size;
 import java.util.List;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -54,30 +53,30 @@ public class MovieController {
     // Mapping for adding a rating to the movie on the mentioned movie id
     @PostMapping(value = "/{movieId}/rating")
     @ApiOperation(value = "Add a rating to the movie by providing the movie id", notes = "Provide an id to add a review to a specific movie", response = ResponseEntity.class)
-    public ResponseEntity updateMovieRating(@PathVariable int movieId, @RequestBody double rating) {
+    public ResponseEntity addRating(@PathVariable int movieId, @RequestBody double rating) {
         if (rating < 1.0)
             throw new MovieServiceException("Minimum rating to be given is 1.0");
         else if (rating > 5.0)
             throw new MovieServiceException("Maximum rating to be given is 5.0");
         else
-            movieService.updateMovieRating(movieId, rating);
+            movieService.addRating(movieId, rating);
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
 
     // Mapping for adding a review to the movie on the mentioned movie id
     @PostMapping(value = "/{movieId}/review")
     @ApiOperation(value = "Add review to a specific movie by movie id", notes = "Provide an id to add review", response = ResponseEntity.class)
-    public ResponseEntity updateMovieReview(@PathVariable int movieId, @RequestBody String review) {
+    public ResponseEntity addReview(@PathVariable int movieId, @RequestBody String review) {
 
-        reviewService.updateMovieReview(movieId, review);
+        reviewService.addReview(movieId, review);
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
 
     // Mapping for getting the whole details of the movie on the given particular movie id
     @GetMapping(value = "/{movieId}")
     @ApiOperation(value = "Find Movie Details by id", notes = "Provide an id to look up for the specific movie", response = BriefMovieDisplay.class)
-    public ResponseEntity<BriefMovieDisplay> getMovieDetails(@ApiParam(value = "Id value for the movie you need to retrieve", required = true) @PathVariable int movieId) {
-        BriefMovieDisplay briefMovieDisplay = movieService.findMovieDetails(movieId);
+    public ResponseEntity<BriefMovieDisplay> getMovieDetailsByMovieId(@ApiParam(value = "Id value for the movie you need to retrieve", required = true) @PathVariable int movieId) {
+        BriefMovieDisplay briefMovieDisplay = movieService.findMovieDetailsByMovieId(movieId);
         return ResponseEntity.ok(briefMovieDisplay);
     }
 
@@ -92,10 +91,10 @@ public class MovieController {
     // Mapping for updating the movie details for the given movie id
     @PutMapping("/{movieId}")
     @ApiOperation(value = "Update Movie Details by id", notes = "Provide an id to update the specific movie", response = ResponseEntity.class)
-    public ResponseEntity update(@RequestBody MovieDTO movieDTO, @PathVariable("movieId") int movieId) {
+    public ResponseEntity updateMovieByMovieId(@RequestBody MovieDTO movieDTO, @PathVariable("movieId") int movieId) {
         Movie movie = movieConvertor.dtoToEntityForUpdating(movieDTO, movieId);
         if (movie != null) {
-            movieService.updateMovieById(movie);
+            movieService.updateMovieByMovieId(movie);
             return new ResponseEntity(HttpStatus.ACCEPTED);
         } else
             throw new MovieServiceException("No movie associated with the given id that can be updated");
@@ -104,7 +103,7 @@ public class MovieController {
     // Mapping for getting the reviews that are made on the particular movie
     @GetMapping("/{movieId}/review")
     @ApiOperation(value = "Find all the reviews by specific movie id", notes = "Provide an id to look up for all the reviews of specific movie", response = Review.class)
-    public ResponseEntity<List<Review>> findAllReviews(@PathVariable int movieId, @RequestParam Integer pageNumber, @RequestParam(required = false) Integer pageSize) {
+    public ResponseEntity<List<Review>> findAllReviewsByMovieId(@PathVariable int movieId, @RequestParam Integer pageNumber, @RequestParam(required = false) Integer pageSize) {
         List<Review> reviews = reviewService.findAllReviews(movieId, pageNumber, pageSize);
         if (reviews.isEmpty())
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -115,7 +114,7 @@ public class MovieController {
     // Mapping for the searching the movie by title or/and Genre
     @GetMapping("/search")
     @ApiOperation(value = "Search movies by title or/and genre", notes = "Provide title or genre of the movie to look up for the associated movies with them", response = MovieDisplay.class)
-    public ResponseEntity<List<MovieDisplay>> searchApi(@RequestParam String title, @RequestParam String genre, @RequestParam int pageNumber) {
+    public ResponseEntity<List<MovieDisplay>> searchMovies(@RequestParam String title, @RequestParam String genre, @RequestParam int pageNumber) {
         List<MovieDisplay> movieDisplays = movieConvertor.entityToDisplay(movieService.searchMovies(title, genre, pageNumber));
         if (movieDisplays.isEmpty())
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

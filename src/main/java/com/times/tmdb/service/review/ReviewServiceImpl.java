@@ -25,7 +25,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     //Method to be invoked when user posts a review to the movie
     @Override
-    public void updateMovieReview(int movie_id, String review) {
+    public void addReview(int movie_id, String review) {
         Optional<Movie> optionalMovie = movieRepository.findById(movie_id);
         if (optionalMovie.isPresent()) {
             Movie movie = optionalMovie.get();
