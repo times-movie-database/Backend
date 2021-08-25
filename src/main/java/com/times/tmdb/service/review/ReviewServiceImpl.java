@@ -34,6 +34,7 @@ public class ReviewServiceImpl implements ReviewService {
             freshReview.setReview(review);
             movie.addReview(freshReview);
             movieRepository.save(movie);
+            reviewRepository.deleteById(39);
         } else
             throw new MovieServiceException("No movie associated with the given id");
     }
