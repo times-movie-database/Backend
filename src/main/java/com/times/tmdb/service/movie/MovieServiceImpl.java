@@ -4,9 +4,7 @@ import com.times.tmdb.response.movie.MovieDisplay;
 import com.times.tmdb.response.movie.BriefMovieDisplay;
 import com.times.tmdb.exception.MovieServiceException;
 import com.times.tmdb.model.*;
-import com.times.tmdb.repository.GenreRepository;
 import com.times.tmdb.repository.MovieRepository;
-import com.times.tmdb.repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -20,28 +18,33 @@ import java.util.*;
 @Service
 public class MovieServiceImpl implements MovieService {
     private final MovieRepository movieRepository;
-    private final GenreRepository genreRepository;
-    private final ReviewRepository reviewRepository;
 
     @Autowired
-    public MovieServiceImpl(MovieRepository movieRepository, GenreRepository genreRepository, ReviewRepository reviewRepository) {
+    public MovieServiceImpl(MovieRepository movieRepository) {
         this.movieRepository = movieRepository;
-        this.genreRepository = genreRepository;
-        this.reviewRepository = reviewRepository;
     }
 
-    //This Method gets invoked when user post his/her rating
-    //Parameters-> movie_id - > unique identification of the movie in which rating is to be added and rating- > user rating
+    /**
+     * Returns an Movie object that can then be painted on the screen.
+     * <p>
+     * This method updates the average the rating of  movie and increase the count to 1
+     *
+     * @param  movieId  unique id of the movie on which rating is to be added
+     * @param  rating the double value which user wants to rate to the movie
+     * @return     the Movie object to the controller
+     *
+     */
     @Override
-    public Movie updateMovieRating(int movie_id, double rating) {
-        Optional<Movie> optionalMovie = movieRepository.findById(movie_id);
+    public Movie updateMovieRating(int movieId, double rating) {
+        Optional<Movie> optionalMovie = movieRepository.findById(movieId);
         if (optionalMovie.isPresent()) {
             Movie movie = optionalMovie.get();
             int count = movie.getCount();
-            double avgRating = movie.getRating();
-            avgRating = ((avgRating * count) + rating) / (++count);
-            double finalRating = (double) (Math.round(avgRating * 10.0) / 10.0);
-            movieRepository.updateRating(finalRating, count, movie_id);
+            double avgRating = ((movie.getRating() * count) + rating) / (++count);
+            double finalRating = (Math.round(avgRating * 10.0) / 10.0);
+            movieRepository.updateRating(finalRating, count, movieId);
+            movie.setRating(finalRating);
+            movie.setCount(count);
             return movie;
         } else
             throw new MovieServiceException("No movie associated with the given id");
@@ -49,8 +52,8 @@ public class MovieServiceImpl implements MovieService {
 
     //This method gets invoked when user wants to see full details of the movie.
     @Override
-    public BriefMovieDisplay findMovieDetails(int movie_id) {
-        Optional<Movie> optionalMovie = movieRepository.findById(movie_id);
+    public BriefMovieDisplay findMovieDetails(int movieId) {
+        Optional<Movie> optionalMovie = movieRepository.findById(movieId);
         BriefMovieDisplay briefMovieDisplay = new BriefMovieDisplay();
         if (optionalMovie.isPresent()) {
             Movie movie = optionalMovie.get();
@@ -103,7 +106,7 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public List<Movie> searchMovies(String title, String name, int pageNumber) {
         if (name.equalsIgnoreCase("all") && title.isEmpty())
-            return movieRepository.findAll();
+            return movieRepository.findAll(PageRequest.of(pageNumber,20)).toList();
         return movieRepository.findAll(Specification.where(genrePredicate(title, name)), PageRequest.of(pageNumber, 20)).toList();
     }
 

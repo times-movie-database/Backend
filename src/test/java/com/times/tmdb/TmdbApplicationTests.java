@@ -1,44 +1,57 @@
 package com.times.tmdb;
 
 import com.times.tmdb.controller.MovieController;
+import com.times.tmdb.exception.MovieServiceException;
 import com.times.tmdb.model.Cast;
 import com.times.tmdb.model.Genre;
 import com.times.tmdb.model.Movie;
 import com.times.tmdb.model.Review;
+import com.times.tmdb.repository.GenreRepository;
 import com.times.tmdb.repository.MovieRepository;
+import com.times.tmdb.repository.ReviewRepository;
 import com.times.tmdb.response.movie.BriefMovieDisplay;
+import com.times.tmdb.service.movie.MovieService;
 import com.times.tmdb.service.movie.MovieServiceImpl;
+import com.times.tmdb.service.review.ReviewService;
 import com.times.tmdb.service.review.ReviewServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = TmdbApplication.class)
+
+@ExtendWith(MockitoExtension.class)
 class TmdbApplicationTests {
     @InjectMocks
     MovieController movieController;
-    @Mock
+    @Autowired
     ReviewServiceImpl reviewService;
-    @Mock
-    MovieServiceImpl movieService;
+
     Movie movie;
     BriefMovieDisplay briefMovieDisplay;
     Genre genre;
     Review review;
     @Mock
     MovieRepository movieRepository;
+
+    @Mock
+    ReviewRepository reviewRepository;
+
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
@@ -70,24 +83,36 @@ class TmdbApplicationTests {
     }
 
     @Test
-    void getMovieDetailsByMovieId() {
-        when(movieService.findMovieDetails(1)).thenReturn(briefMovieDisplay);
-        BriefMovieDisplay briefMovieDisplay = movieService.findMovieDetails(1);
-        assertEquals(213, briefMovieDisplay.getCount());
-    }
-    @Test
-    void getMovieReviewsByMovieId() {
-        when(reviewService.findAllReviews(1, 0, 3)).thenReturn(new ArrayList<Review>());
-        List<Review> reviews = reviewService.findAllReviews(1, 0, 3);
-        System.out.println(reviews.isEmpty());
-        assertEquals("nicee", reviews.get(0).getReview());
+    void addRating() {
+        MovieServiceImpl movieService = new MovieServiceImpl(movieRepository);
+        Mockito.when(movieRepository.findById(1)).thenReturn(Optional.of(movie));
+        Mockito.when(movieRepository.updateRating(4.0, movie.getCount() + 1, 1)).thenReturn(1);
+        Movie resultMovie = movieService.updateMovieRating(1, 3.5);
+        assertEquals(4.0, resultMovie.getRating());
     }
 
     @Test
-    void addRating() {
-        when(movieService.updateMovieRating(anyInt(), anyDouble())).thenReturn(movie);
-        Movie movie = movieService.updateMovieRating(1, 3.5);
-        assertEquals(4.0, movie.getRating());
+    void addRatingWithException() {
+        MovieService movieService = new MovieServiceImpl(movieRepository);
+        Mockito.when(movieRepository.findById(4)).thenReturn(Optional.empty());
+        MovieServiceException movieServiceException = assertThrows(MovieServiceException.class, () -> movieService.updateMovieRating(4, 3.5));
+        assertTrue(movieServiceException.getMessage().contains("No movie associated with the given id"));
+    }
+
+    @Test
+    void findMovieDetailsByMovieId() {
+        MovieService movieService = new MovieServiceImpl(movieRepository);
+        Mockito.when(movieRepository.findById(1)).thenReturn(Optional.of(movie));
+        BriefMovieDisplay briefMovieDisplay = movieService.findMovieDetails(1);
+        assertEquals("3Idiots", briefMovieDisplay.getTitle());
+    }
+
+    @Test
+    void findMovieDetailsByMovieIdWithException() {
+        MovieService movieService = new MovieServiceImpl(movieRepository);
+        Mockito.when(movieRepository.findById(4)).thenReturn(Optional.empty());
+        MovieServiceException movieServiceException = assertThrows(MovieServiceException.class, () -> movieService.findMovieDetails(4));
+        assertTrue(movieServiceException.getMessage().contains("No movie associated with the given id"));
     }
 
 }
